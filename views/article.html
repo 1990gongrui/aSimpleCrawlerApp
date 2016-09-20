@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="../index.css">
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<a href="/1" class="navbar-brand">首页</a>
+			<ul class="nav navbar-nav">
+				<li class="nav-item">
+			      <a class="nav-link" href="#">About</a>
+			    </li>
+			</ul>
+		</nav>
+
+		<div id="content">
+			<div id="records">
+				<div class="record">
+					<div class="record-title">
+				      	<h2 class="title">{{entry.title}}</h2>
+					</div>
+					<div id="sectitle">
+						{{entry.sectitle}}<a href="{{entry.href}}" target="view_window">访问原址</a>
+					</div>
+					<div id="detail" class="detail">
+						{{{entry.detail}}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<footer>
+			<p>本站信息均订阅各大高校研究生招生网，仅供参考，准确信息以原网址内容为准。</p>
+		</footer>
+		<script src="../removeStyle.js"></script>
+	</body>
+</html>
