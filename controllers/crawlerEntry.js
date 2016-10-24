@@ -1,4 +1,4 @@
-var crewler_entry = require('./crewler');
+var crawler_entry = require('../models/crawler');
 
 var readline = require('readline');
 
@@ -8,6 +8,6 @@ var rl = readline.createInterface({
 });
 
 rl.question('Input target address pls:', (answer) => {
-  crewler_entry.crewler(answer);
+  crawler_entry.crawler(answer);
   rl.close();
 });

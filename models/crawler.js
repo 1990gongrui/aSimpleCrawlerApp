@@ -3,10 +3,10 @@ var cheerio = require("cheerio");
 var mongo = require('mongodb');
 var monk = require('monk');
 
-crewler = function(address){
+crawler = function(address){
 	var db = monk('localhost:27017/test');
 	var items = db.get('items');
-	console.log('Crewler is running.');
+	console.log('crawler is running.');
 	superagent.get(address)
 	.end(function(err, sres){
 		if (err) {
@@ -53,4 +53,4 @@ crewler = function(address){
 	});
 }
 
-exports.crewler = crewler;
+exports.crawler = crawler;
