@@ -2,6 +2,7 @@ var express = require("express");
 var mongo = require('mongodb');
 var monk = require('monk');
 var hbs = require("hbs");
+var fs = require('fs');
 
 var app = express();
 var db = monk('localhost:27017/test');
@@ -16,6 +17,30 @@ app.engine('html', hbs.__express);
 //     next();
 // });
 var items = db.get('items');
+
+//get current time
+function getCurTime(){
+    var curdate = new Date();
+    return curdate.toLocaleString();
+}
+
+//wirte log
+function logWrite(str){
+    fs.open('./data.log', 'a+', function(err, fd){
+        if(err){
+            console.log(err);
+        }
+        fs.appendFile(fd, str, function(err){
+            if(err){
+                console.log(err);
+            }
+            fs.close(fd, function(){
+
+            });
+        });
+    });
+
+}
 
 
 //Just simply copied from the next router making the page = 1 to get the req '/', there may be a easier way to do it. 
@@ -36,7 +61,9 @@ app.get('/', function(req, res){
 				});
 			}	
 			var curPage = pages[page-1];
-			console.log('Request for ' + req.path + ' received.');
+			var remoteAddress = req.connection.remoteAddress.substr(7);
+			var log = getCurTime() + '\nRequest for ' + req.path + ' received.\nFrom:' + remoteAddress + '\n';
+			logWrite(log);
 			res.render('index', {entries: docs, pages: pages, curPage: curPage});
 		});		
 	});
@@ -59,7 +86,9 @@ app.get('/:p', function(req, res){
 				});
 			}	
 			var curPage = pages[page-1];
-			console.log('Request for ' + req.path + ' received.');
+			var remoteAddress = req.connection.remoteAddress.substr(7);
+			var log = getCurTime() + '\nRequest for ' + req.path + ' received.\nFrom:' + remoteAddress + '\n';
+			logWrite(log);
 			res.render('index', {entries: docs, pages: pages, curPage: curPage});
 		});		
 	});
@@ -68,7 +97,9 @@ app.get('/:p', function(req, res){
 app.get('/article/:id', function(req, res){
 	var id = req.params.id;
 	items.find({'_id': id}, function(err, docs){
-		console.log('Request for ' + req.path + ' received.');
+		var remoteAddress = req.connection.remoteAddress.substr(7);
+		var log = getCurTime() + '\nRequest for ' + req.path + ' received.\nFrom:' + remoteAddress + '\n';
+		logWrite(log);
 		res.render('article', {entry: docs[0]});
 	});
 });

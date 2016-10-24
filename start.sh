@@ -1,3 +1,3 @@
 # server start shell
 # & can make the process run background
-nodemon index.sh &
+nodemon server.js &
