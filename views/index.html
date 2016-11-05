@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="index.css">
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="index.css">		
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -17,7 +17,7 @@
 		</nav>
 
 		<div id="content">
-			<h2 class="title">高校研究生招生信息</h2>
+			<h2 class="title">四川大学信息聚合平台</h2>
 			<div id="records">
 				{{#each entries}}
 				<div class="record">
@@ -28,7 +28,7 @@
 						{{sectitle}}<a href="{{href}}" target="view_window">访问原址</a>
 					</div>
 					<div class="preview">
-						{{preview}}
+						<img class="previewImg" src="{{pic}}" alt="preview image">{{preview}}
 					</div>
 				</div>
 				{{/each}}
@@ -43,7 +43,7 @@
 
 
 		<footer>
-			<p>本站信息均订阅各大高校研究生招生网，仅供参考，准确信息以原网址内容为准。</p>
+			<p>本站信息均订阅四川大学各学院官方网站，仅供参考，准确信息以原网址内容为准。</p>
 		</footer>
 	</body>
 </html>

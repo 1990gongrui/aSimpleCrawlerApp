@@ -27,11 +27,11 @@ crawler = function(address){
 
 				//将字符串转换为Date对象
 				var tempArray = sectitle.split('\r\n')[1];
-					var strArray = tempArray.split(' ');
-					var dateArray = strArray[9].split('-');
-					var timeArray = strArray[10].split(':');
-					//转换时区，差8个小时
-					var itemDate = new Date(dateArray[0],parseInt(dateArray[1])-1,dateArray[2],parseInt(timeArray[0])+8,timeArray[1]);
+				var strArray = tempArray.split(' ');
+				var dateArray = strArray[9].split('-');
+				var timeArray = strArray[10].split(':');
+				//转换时区，差8个小时
+				var itemDate = new Date(dateArray[0],parseInt(dateArray[1])-1,dateArray[2],parseInt(timeArray[0])+8,timeArray[1]);
 				
 				var preview = $de.text().substring(0, 200);
 				if (preview.length >= 200) {
