@@ -62,7 +62,7 @@ app.get('/:inst/:type/:p', function(req, res){
 	}
 	else {
 		sql1 = 'select count(*) as count from ARTICLE where TAGS like ? and INSTITUTIONID like ?';
-		sql2 = 'select * from ARTICLE, INSTITUTION where INSTITUTION.ID = ARTICLE.INSTITUTIONID and TAGS like ? and INSTITUTIONID = ? order by date(TIME)'
+		sql2 = 'select ID, TITLE, CONTENT, PREPICURL, TIME, ACCESSNUM, HREF, TAGS, NAME from ARTICLE, INSTITUTION where INSTITUTION.ID = ARTICLE.INSTITUTIONID and TAGS like ? and INSTITUTIONID = ? order by date(TIME)'
 		params.push(institution);
 	}
 	dbs.all(sql1, params, function(err, count){
