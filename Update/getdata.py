@@ -144,6 +144,7 @@ def get_all_notice(academy):
 def main():
     all_academy = get_all_academy()
     for each in all_academy:
+        print(each['name'])
         store_academy(each)
         get_all_notice(each)
         get_all_news(each)
