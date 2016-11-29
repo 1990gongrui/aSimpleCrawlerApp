@@ -3,3 +3,4 @@
 node_modules/
 Update/pages/
 data.log
+*.db
