@@ -3,16 +3,33 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="index.css">		
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/index.css">		
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
 			<a href="/" class="navbar-brand">首页</a>
-			<ul class="nav navbar-nav">
-				<li class="nav-item">
-			      <a class="nav-link" href="#">About</a>
-			    </li>
+			<ul class="nav nav-pills">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					{{curPage.curType}}<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/{{curPage.curInst}}/all/1">默认</a></li>
+						<li><a href="/{{curPage.curInst}}/news/1">新闻</a></li>
+						<li><a href="/{{curPage.curInst}}/notice/1">通知</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					学院<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/{{curPage.curType}}/1">默认</a></li>
+						<li><a href="/{{curPage.curType}}/1">新闻</a></li>
+						<li><a href="/{{curPage.curType}}/1">通知</a></li>
+					</ul>
+				</li>
 			</ul>
 		</nav>
 
@@ -22,22 +39,28 @@
 				{{#each entries}}
 				<div class="record">
 					<div class="record-title">
-				      	<a href="article/{{_id}}">{{title}}</a>
+				      	<a href="/article/{{ID}}">{{TITLE}}</a>
 					</div>
 					<div>
-						{{sectitle}}<a href="{{href}}" target="view_window">访问原址</a>
+						<span>来源:&nbsp</span><a href="">{{INSTNAME}}</a>
+						&nbsp<span>类型:&nbsp</span><a href="/{{curPage.curInst}}/{{TAGS}}/1">{{TAGS}}</a>
+						&nbsp{{TIME}}&nbsp<span>访问次数:{{ACCESSNUM}}</span>&nbsp<a href="{{HREF}}" target="view_window">访问原址</a>
 					</div>
 					<div class="preview">
-						<img class="previewImg" src="{{pic}}" alt="preview image">{{preview}}
+						<img class="previewImg" src="{{PREPICURL}}" alt="preview image">{{preview}}
 					</div>
 				</div>
 				{{/each}}
 			</div>
 			<div id="pageindex" class="text-center">
 				<span>第{{curPage.page}}/{{curPage.pagenumber}}页</span>
+				<a href="{{curPage.firstPage.page}}">首页</a>
+				<a href="{{curPage.prePage.page}}">上一页</a>				
 				{{#each pages}}
 				<a href="{{page}}">{{page}}</a>
 				{{/each}}
+				<a href="{{curPage.nextPage.page}}">下一页</a>
+				<a href="{{curPage.lastPage.page}}">尾页</a>	
 			</div>
 		</div>
 
@@ -45,5 +68,7 @@
 		<footer>
 			<p>本站信息均订阅四川大学各学院官方网站，仅供参考，准确信息以原网址内容为准。</p>
 		</footer>
+		<script src='/bootstrap/js/jquery-3.0.0.min.js'></script>
+		<script src='/bootstrap/js/bootstrap.js'></script>
 	</body>
 </html>

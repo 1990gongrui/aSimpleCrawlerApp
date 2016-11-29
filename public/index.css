@@ -5,7 +5,7 @@ html, body {
 #content {
 	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 	max-width: 85%;
-	margin: 0 auto;
+	margin: 65px auto 0 auto;
 }
 .title {
 	color: rgba(110, 110, 110, 1);
@@ -49,4 +49,12 @@ footer p {
 	margin-top: 18px;
 	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 	font-size: 16px;
+}
+.dropdown-toggle {
+	margin-top: 5px;
+}
+.navbar {
+	position: fixed;
+	top: 0px;
+	width: 100%;
 }

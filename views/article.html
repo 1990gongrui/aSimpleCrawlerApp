@@ -8,11 +8,9 @@
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
-			<a href="/1" class="navbar-brand">首页</a>
+			<a onClick="javascript:history.back(-1)" class="navbar-brand">返回</a>
 			<ul class="nav navbar-nav">
-				<li class="nav-item">
-			      <a class="nav-link" href="#">About</a>
-			    </li>
+				
 			</ul>
 		</nav>
 
@@ -20,13 +18,13 @@
 			<div id="records">
 				<div class="record">
 					<div class="record-title">
-				      	<h2 class="title">{{entry.title}}</h2>
+				      	<h2 class="title">{{entry.TITLE}}</h2>
 					</div>
 					<div id="sectitle">
-						{{entry.sectitle}}<a href="{{entry.href}}" target="view_window">访问原址</a>
+						{{entry.TIME}}&nbsp<span>访问次数:{{entry.ACCESSNUM}}</span>&nbsp<a href="{{entry.HREF}}" target="view_window">访问原址</a>
 					</div>
 					<div id="detail" class="detail">
-						{{{entry.detail}}}
+						{{{entry.CONTENT}}}
 					</div>
 				</div>
 			</div>
