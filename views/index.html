@@ -12,7 +12,7 @@
 			<ul class="nav nav-pills">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					{{curPage.curType}}<span class="caret"></span>
+					{{curPage.curTypeName}}<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="/{{curPage.curInst}}/all/1">默认</a></li>
@@ -22,12 +22,12 @@
 				</li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					学院<span class="caret"></span>
+					{{curPage.curInstName}}<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="/{{curPage.curType}}/1">默认</a></li>
-						<li><a href="/{{curPage.curType}}/1">新闻</a></li>
-						<li><a href="/{{curPage.curType}}/1">通知</a></li>
+						{{#each instList}}
+						<li><a href="/{{ID}}/{{curType}}/1">{{NAME}}</a></li>
+						{{/each}}
 					</ul>
 				</li>
 			</ul>
@@ -42,8 +42,8 @@
 				      	<a href="/article/{{ID}}">{{TITLE}}</a>
 					</div>
 					<div>
-						<span>来源:&nbsp</span><a href="">{{INSTNAME}}</a>
-						&nbsp<span>类型:&nbsp</span><a href="/{{curPage.curInst}}/{{TAGS}}/1">{{TAGS}}</a>
+						<span>来源:&nbsp</span><a href="/{{INSTITUTIONID}}/{{curType}}/1">{{NAME}}</a>
+						&nbsp<span>类型:&nbsp</span><a href="/{{curInst}}/{{TAGS}}/1">{{curTypeName}}</a>
 						&nbsp{{TIME}}&nbsp<span>访问次数:{{ACCESSNUM}}</span>&nbsp<a href="{{HREF}}" target="view_window">访问原址</a>
 					</div>
 					<div class="preview">
@@ -54,13 +54,13 @@
 			</div>
 			<div id="pageindex" class="text-center">
 				<span>第{{curPage.page}}/{{curPage.pagenumber}}页</span>
-				<a href="{{curPage.firstPage.page}}">首页</a>
-				<a href="{{curPage.prePage.page}}">上一页</a>				
+				<a href="{{curPage.firstPage}}">首页</a>
+				<a href="{{curPage.prePage}}">上一页</a>				
 				{{#each pages}}
 				<a href="{{page}}">{{page}}</a>
 				{{/each}}
-				<a href="{{curPage.nextPage.page}}">下一页</a>
-				<a href="{{curPage.lastPage.page}}">尾页</a>	
+				<a href="{{curPage.nextPage}}">下一页</a>
+				<a href="{{curPage.lastPage}}">尾页</a>	
 			</div>
 		</div>
 

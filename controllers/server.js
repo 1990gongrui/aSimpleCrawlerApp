@@ -52,24 +52,50 @@ app.get('/', function(req, res){
 app.get('/:inst/:type/:p', function(req, res){
 	var page = parseInt(req.params.p) || 1;
 	var type = (req.params.type == 'all') ? '%' : req.params.type;
-	var institution = (req.params.inst == 'all') ? '%' : req.params.ints;
-	dbs.all('select count(*) as count from ARTICLE where TAGS like ? and INSTITUTIONID like ?', [type, institution], function(err, count){
-		dbs.all('select * from ARTICLE where TAGS like ? and INSTITUTIONID like ? order by date(TIME)', [type, institution], function(err, docs){
+	var institution = req.params.inst;
+	var sql1, sql2;
+	var params = [];
+	params.push(type);
+	if (institution === 'all') {
+		sql1 = 'select count(*) as count from ARTICLE where TAGS like ?';
+		sql2 = 'select * from ARTICLE, INSTITUTION where INSTITUTION.ID = ARTICLE.INSTITUTIONID and TAGS like ? order by date(TIME)';
+	}
+	else {
+		sql1 = 'select count(*) as count from ARTICLE where TAGS like ? and INSTITUTIONID like ?';
+		sql2 = 'select * from ARTICLE, INSTITUTION where INSTITUTION.ID = ARTICLE.INSTITUTIONID and TAGS like ? and INSTITUTIONID = ? order by date(TIME)'
+		params.push(institution);
+	}
+	dbs.all(sql1, params, function(err, count){
+		if(err) console.log(err);
+		dbs.all(sql2, params, function(err, docs){
+			if(err) console.log(err);
 			var pagenumber = Math.ceil((count[0].count)/10);
 			var pages = [];
 			for(var i = 1; i <= pagenumber; i++){
 				pages.push({
-					'page': i,
-					'pagenumber': pagenumber
+					'page': i
 				});
 			}	
-			var curPage = pages[page-1];
-			curPage.firstPage = pages[0];
-			curPage.lastPage = pages[pagenumber-1];
-			curPage.prePage = pages[page-2];
-			curPage.nextPage = pages[page];
+			var curPage = {};
+			curPage.page = page;
+			curPage.firstPage = 1;
+			curPage.lastPage = pagenumber;
+			curPage.pagenumber = pagenumber;			
+			curPage.prePage = page-1;
+			curPage.nextPage = page+1;
 			curPage.curType = (type == '%') ? 'all' : type;
-			curPage.curInst = (institution == '%') ? 'all' : institution;
+			curPage.curInst = institution;			
+			
+			if(curPage.curType == 'all'){
+				curPage.curTypeName = '默认';
+			}
+			else if(curPage.curType == 'notice'){
+				curPage.curTypeName = '通知';
+			}
+			else if(curPage.curType == 'news'){
+				curPage.curTypeName = '新闻';
+			}
+
 			var pageRange = {};
 			if(curPage.page-5 > 0&&curPage.page+5 < pagenumber){
 				pageRange.start = curPage.page - 5;
@@ -83,18 +109,42 @@ app.get('/:inst/:type/:p', function(req, res){
 				pageRange.end = pagenumber;
 				pageRange.start = pageRange.end - 10;
 			}
+			if(curPage.curInst =='all') curPage.curInstName = '所有学院';
+			else {
+				dbs.all('select * from INSTITUTION where ID = ?', [curPage.curInst], function(err, name){
+					if(err) console.log(err);
+					curPage.curInstName = name[0].NAME;
+				});
+			}
 			docs.slice((page-1)*10, page*10-1).forEach(function(ele){
 				if(!ele.PREPICURL){
 					ele.PREPICURL = '/imgs/timg.jpeg';
 				}
-				dbs.all('select NAME from INSTITUTION where ID = ?', [ele.INSTITUTIONID], function(err, name){
-					ele.INSTNAME = name[0].NAME;	
-				})
+				ele.curType = (type == '%') ? 'all' : type;
+				if(ele.TAGS == '%'){
+					ele.curTypeName = '默认';
+				}
+				else if(ele.TAGS == 'notice'){
+					ele.curTypeName = '通知';
+				}
+				else if(ele.TAGS == 'news'){
+					ele.curTypeName = '新闻';
+				}
+				ele.curInst = institution;
+				if(institution == 'all'){
+					ele.Name = '暂无';	
+				}
 			});
 			var remoteAddress = req.connection.remoteAddress.substr(7);
 			var log = getCurTime() + '\nRequest for ' + req.path + ' received.\nFrom:' + remoteAddress + '\n';
 			logWrite(log);
-			res.render('index', {entries: docs.slice((page-1)*10, page*10-1), pages: pages.slice(pageRange.start, pageRange.end), curPage: curPage});
+			dbs.all('select * from INSTITUTION', function(err, instList){
+				if(err) console.log(err);
+				instList.forEach(function(ele){
+					ele.curType = curPage.curType;
+				});
+				res.render('index', {entries: docs.slice((page-1)*10, page*10-1), pages: pages.slice(pageRange.start, pageRange.end), curPage: curPage, instList: instList});	
+			});
 		});
 	});
 });
