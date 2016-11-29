@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 #coding=utf-8
+import io
+import sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 
 all_academy_url = "http://120.27.33.180:8080/SCU_News_Notice/academy/"
 # usage: notice_page_url/academy.no/page.no
